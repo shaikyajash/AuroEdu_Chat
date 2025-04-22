@@ -8,12 +8,12 @@ import {
   ListItemSuffix,
   IconButton,
   Button,
-  Input,
   Tooltip,
   Dialog,
   DialogHeader,
   DialogBody,
   DialogFooter,
+  Chip,
 } from "@material-tailwind/react";
 import {
   ChatBubbleLeftRightIcon,
@@ -21,16 +21,11 @@ import {
   MoonIcon,
   PlusIcon,
   TrashIcon,
-  PencilIcon,
-  XMarkIcon,
-  CheckIcon,
 } from "@heroicons/react/24/solid";
 import useThemeStore from "../store/themeStore";
 import useChatStore from "../store/chatStore";
 
 const Sidebar = () => {
-  const [editingId, setEditingId] = useState(null);
-  const [editName, setEditName] = useState("");
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [sessionToDelete, setSessionToDelete] = useState(null);
   
@@ -42,21 +37,7 @@ const Sidebar = () => {
     createNewSession, 
     switchSession,
     deleteSession,
-    renameSession 
   } = useChatStore();
-
-  const handleRename = (session) => {
-    setEditingId(session.id);
-    setEditName(session.name);
-  };
-
-  const handleSaveRename = () => {
-    if (editName.trim()) {
-      renameSession(editingId, editName.trim());
-    }
-    setEditingId(null);
-    setEditName("");
-  };
 
   const handleDelete = (e, sessionId) => {
     e.stopPropagation();
@@ -72,167 +53,190 @@ const Sidebar = () => {
     setSessionToDelete(null);
   };
 
+  const getLastMessage = (messages) => {
+    if (!messages || messages.length === 0) return "No messages";
+    const lastMsg = messages[messages.length - 1];
+    const content = lastMsg.content.slice(0, 30) + (lastMsg.content.length > 30 ? "..." : "");
+    return content;
+  };
+
   return (
     <>
-      <Card className={`h-screen w-72 p-4 shadow-xl rounded-none ${
-        isDarkMode ? 'bg-gray-800 text-gray-100' : 'bg-white text-gray-900'
+      <Card className={`h-screen w-80 p-0 shadow-xl rounded-none backdrop-blur-sm ${
+        isDarkMode 
+          ? 'bg-secondary-800/90 text-secondary-100 border-r border-secondary-700' 
+          : 'bg-white/80 text-secondary-900 border-r border-secondary-200'
       }`}>
-        <div className="mb-2 flex items-center justify-between p-4">
-          <Typography variant="h5" className={isDarkMode ? 'text-gray-100' : 'text-blue-gray-900'}>
-            AuroEdu Chat
-          </Typography>
-          <Tooltip content={isDarkMode ? "Light mode" : "Dark mode"}>
-            <IconButton
-              variant="text"
-              color={isDarkMode ? "gray" : "blue-gray"}
-              onClick={toggleTheme}
-              className={isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'}
-            >
-              {isDarkMode ? (
-                <SunIcon className="h-5 w-5 text-yellow-300" />
-              ) : (
-                <MoonIcon className="h-5 w-5" />
-              )}
-            </IconButton>
-          </Tooltip>
-        </div>
-        
-        <div className="flex items-center justify-between px-4 mb-2">
-          <Typography variant="h6" className={isDarkMode ? 'text-gray-300' : 'text-gray-900'}>
-            Chat Sessions
-          </Typography>
-          <Tooltip content="New chat">
-            <IconButton
-              variant="text"
-              size="sm"
-              color={isDarkMode ? "gray" : "blue-gray"}
-              onClick={createNewSession}
-              className={isDarkMode ? 'hover:bg-gray-700' : 'hover:bg-gray-200'}
-            >
-              <PlusIcon className="h-5 w-5" />
-            </IconButton>
-          </Tooltip>
+        {/* Header */}
+        <div className={`p-5 ${
+          isDarkMode 
+            ? 'bg-gradient-subtle from-secondary-800 to-secondary-900/50' 
+            : 'bg-gradient-subtle from-primary-50 to-white'
+        } border-b ${isDarkMode ? 'border-secondary-700' : 'border-secondary-200'}`}>
+          <div className="flex items-center justify-between mb-3">
+            <Typography variant="h4" className={`font-semibold ${
+              isDarkMode ? 'text-primary-300' : 'text-primary-600'
+            }`}>
+              AuroEdu
+            </Typography>
+            <Tooltip content={isDarkMode ? "Light mode" : "Dark mode"}>
+              <IconButton
+                variant="text"
+                color={isDarkMode ? "white" : "blue-gray"}
+                onClick={toggleTheme}
+                className={`rounded-full ${
+                  isDarkMode 
+                    ? 'hover:bg-secondary-700 text-primary-300' 
+                    : 'hover:bg-primary-50 text-primary-600'
+                }`}
+              >
+                {isDarkMode ? (
+                  <SunIcon className="h-5 w-5" />
+                ) : (
+                  <MoonIcon className="h-5 w-5" />
+                )}
+              </IconButton>
+            </Tooltip>
+          </div>
+          <Button
+            size="sm"
+            className={`flex items-center gap-2 w-full shadow-sm ${
+              isDarkMode 
+                ? 'bg-gradient-subtle from-primary-600 to-primary-700 hover:from-primary-500 hover:to-primary-600 text-white' 
+                : 'bg-gradient-subtle from-primary-500 to-primary-600 hover:from-primary-400 hover:to-primary-500 text-white'
+            }`}
+            onClick={createNewSession}
+          >
+            <PlusIcon className="h-4 w-4" />
+            New Chat
+          </Button>
         </div>
 
-        <List className={`overflow-y-auto max-h-[calc(100vh-200px)] ${isDarkMode ? 'text-gray-100' : ''}`}>
+        {/* Chat List */}
+        <List className={`overflow-y-auto p-2 flex-1 ${
+          isDarkMode ? 'text-secondary-100' : 'text-secondary-900'
+        }`}>
           {chatSessions.map((session) => (
             <ListItem
               key={session.id}
-              className={`group mb-2 relative ${isDarkMode ? 'hover:bg-gray-700' : ''} ${
+              className={`group mb-2 ${
+                isDarkMode 
+                  ? 'hover:bg-secondary-700/50' 
+                  : 'hover:bg-primary-50/50'
+              } ${
                 currentSessionId === session.id 
                   ? isDarkMode 
-                    ? 'bg-gray-700'
-                    : 'bg-blue-gray-50'
+                    ? 'bg-secondary-700/50 border border-secondary-600'
+                    : 'bg-primary-50/50 border border-primary-200'
                   : ''
-              }`}
+              } rounded-xl transition-all duration-200`}
               onClick={() => switchSession(session.id)}
             >
-              <ListItemPrefix>
-                <ChatBubbleLeftRightIcon className={`h-5 w-5 ${isDarkMode ? 'text-gray-100' : ''}`} />
-              </ListItemPrefix>
-              
-              {editingId === session.id ? (
-                <div className="flex-1 flex items-center gap-2 z-10 bg-inherit">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-3">
+                  <ChatBubbleLeftRightIcon className={`h-5 w-5 ${
+                    isDarkMode 
+                      ? currentSessionId === session.id
+                        ? 'text-primary-400'
+                        : 'text-secondary-400'
+                      : currentSessionId === session.id
+                        ? 'text-primary-600'
+                        : 'text-secondary-500'
+                  }`} />
                   <div className="flex-1 min-w-0">
-                    <Input
-                      value={editName}
-                      onChange={(e) => setEditName(e.target.value)}
-                      className={`!border-t-blue-gray-200 focus:!border-t-gray-900 ${
-                        isDarkMode ? '!text-gray-100' : ''
+                    <Typography className={`font-medium truncate ${
+                      currentSessionId === session.id
+                        ? isDarkMode 
+                          ? 'text-primary-300'
+                          : 'text-primary-700'
+                        : ''
+                    }`}>
+                      {session.name}
+                    </Typography>
+                    <Typography
+                      variant="small"
+                      className={`truncate ${
+                        isDarkMode ? 'text-secondary-400' : 'text-secondary-600'
                       }`}
-                      labelProps={{
-                        className: "hidden",
-                      }}
-                      containerProps={{
-                        className: "min-w-0 !mt-0",
-                      }}
-                      onClick={(e) => e.stopPropagation()}
-                    />
+                    >
+                      {getLastMessage(session.messages)}
+                    </Typography>
                   </div>
+                </div>
+              </div>
+              <ListItemSuffix>
+                <div className={`opacity-0 group-hover:opacity-100 transition-opacity`}>
                   <IconButton
                     variant="text"
                     size="sm"
-                    color={isDarkMode ? "gray" : "blue-gray"}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleSaveRename();
-                    }}
-                    className={isDarkMode ? 'hover:bg-gray-600' : 'hover:bg-gray-200'}
+                    className={`rounded-full ${
+                      isDarkMode 
+                        ? 'hover:bg-secondary-600 text-secondary-400 hover:text-secondary-200' 
+                        : 'hover:bg-secondary-100 text-secondary-500 hover:text-secondary-700'
+                    }`}
+                    onClick={(e) => handleDelete(e, session.id)}
                   >
-                    <CheckIcon className="h-4 w-4" />
-                  </IconButton>
-                  <IconButton
-                    variant="text"
-                    size="sm"
-                    color={isDarkMode ? "gray" : "blue-gray"}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setEditingId(null);
-                    }}
-                    className={isDarkMode ? 'hover:bg-gray-600' : 'hover:bg-gray-200'}
-                  >
-                    <XMarkIcon className="h-4 w-4" />
+                    <TrashIcon className="h-4 w-4" />
                   </IconButton>
                 </div>
-              ) : (
-                <>
-                  <span className="flex-1">{session.name}</span>
-                  <ListItemSuffix className="opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
-                    <IconButton
-                      variant="text"
-                      size="sm"
-                      color={isDarkMode ? "gray" : "blue-gray"}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleRename(session);
-                      }}
-                      className={isDarkMode ? 'hover:bg-gray-600' : 'hover:bg-gray-200'}
-                    >
-                      <PencilIcon className="h-4 w-4" />
-                    </IconButton>
-                    <IconButton
-                      variant="text"
-                      size="sm"
-                      color={isDarkMode ? "gray" : "blue-gray"}
-                      onClick={(e) => handleDelete(e, session.id)}
-                      className={isDarkMode ? 'hover:bg-gray-600' : 'hover:bg-gray-200'}
-                    >
-                      <TrashIcon className="h-4 w-4" />
-                    </IconButton>
-                  </ListItemSuffix>
-                </>
-              )}
+              </ListItemSuffix>
             </ListItem>
           ))}
           {chatSessions.length === 0 && (
-            <div className="text-center p-4">
+            <div className="flex flex-col items-center justify-center h-32 p-4">
               <Typography 
                 variant="small"
-                className={isDarkMode ? 'text-gray-400' : 'text-gray-600'}
+                className={`text-center ${
+                  isDarkMode ? 'text-secondary-400' : 'text-secondary-600'
+                }`}
               >
-                No chat sessions yet.
-                Click the + button to start a new chat.
+                No chat sessions yet
+              </Typography>
+              <Typography 
+                variant="small"
+                className={`text-center ${
+                  isDarkMode ? 'text-secondary-500' : 'text-secondary-500'
+                }`}
+              >
+                Click the New Chat button to start
               </Typography>
             </div>
           )}
         </List>
       </Card>
 
-      <Dialog open={showDeleteDialog} handler={() => setShowDeleteDialog(false)}>
-        <DialogHeader>Confirm Deletion</DialogHeader>
-        <DialogBody>
-          Are you sure you want to delete this chat session? This action cannot be undone.
+      <Dialog 
+        open={showDeleteDialog} 
+        handler={() => setShowDeleteDialog(false)}
+        className={isDarkMode ? 'bg-secondary-800' : ''}
+      >
+        <DialogHeader className={`${
+          isDarkMode ? 'text-secondary-100' : ''
+        }`}>
+          Delete Chat
+        </DialogHeader>
+        <DialogBody className={isDarkMode ? 'text-secondary-300' : ''}>
+          Are you sure you want to delete this chat? This action cannot be undone.
         </DialogBody>
         <DialogFooter>
           <Button
             variant="text"
-            color="gray"
+            color={isDarkMode ? "white" : "gray"}
             onClick={() => setShowDeleteDialog(false)}
-            className="mr-1"
+            className={`mr-1 ${
+              isDarkMode 
+                ? 'hover:bg-secondary-700' 
+                : 'hover:bg-secondary-100'
+            }`}
           >
             Cancel
           </Button>
-          <Button variant="gradient" color="red" onClick={confirmDelete}>
+          <Button
+            variant="gradient"
+            color="red"
+            onClick={confirmDelete}
+            className={isDarkMode ? 'bg-red-600 hover:bg-red-700' : ''}
+          >
             Delete
           </Button>
         </DialogFooter>
