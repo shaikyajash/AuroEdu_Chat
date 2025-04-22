@@ -188,7 +188,7 @@ const ChatComponent = () => {
   };
 
   return (
-    <div className={`flex-1 h-screen overflow-hidden flex flex-col ${
+    <div className={`flex flex-col h-full overflow-hidden ${
       isDarkMode ? "bg-gray-900" : "bg-gray-50"
     }`}>
       {/* Error notification - subtle and non-intrusive */}
