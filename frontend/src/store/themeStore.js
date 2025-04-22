@@ -8,7 +8,7 @@ const useThemeStore = create(
       toggleTheme: () => set((state) => ({ isDarkMode: !state.isDarkMode })),
     }),
     {
-      name: 'theme-storage', // unique name for the localStorage key
+      name: 'theme-storage',  
     }
   )
 )
