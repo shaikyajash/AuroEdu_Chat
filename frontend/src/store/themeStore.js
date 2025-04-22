@@ -5,7 +5,7 @@ const useThemeStore = create(
   persist(
     (set) => ({
       isDarkMode: false,
-      accentColor: 'teal', // New accent color (teal instead of violet)
+      accentColor: 'blue', // Changed from teal to blue
       toggleTheme: () => set((state) => ({ isDarkMode: !state.isDarkMode })),
       setAccentColor: (color) => set({ accentColor: color }),
     }),

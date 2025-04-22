@@ -15,7 +15,7 @@ const FeatureCard = ({ icon, title, description, isDarkMode }) => {
       isDarkMode ? "bg-slate-800 border border-slate-700" : "bg-white border border-gray-100"
     } shadow-md hover:shadow-lg transition-shadow`}>
       <div className={`p-3 inline-flex rounded-lg mb-4 ${
-        isDarkMode ? "bg-slate-700 text-teal-400" : "bg-teal-100 text-teal-600"
+        isDarkMode ? "bg-slate-700 text-blue-400" : "bg-blue-100 text-blue-600"
       }`}>
         {icon}
       </div>
@@ -38,7 +38,7 @@ const TeamMember = ({ name, role, bio, avatar, isDarkMode }) => {
     } shadow-md hover:shadow-lg transition-shadow`}>
       <div className="flex items-center gap-4 mb-4">
         <div className={`h-16 w-16 rounded-full flex items-center justify-center text-xl font-bold ${
-          isDarkMode ? "bg-slate-700 text-teal-400 border border-slate-600" : "bg-teal-100 text-teal-600"
+          isDarkMode ? "bg-slate-700 text-blue-400 border border-slate-600" : "bg-blue-100 text-blue-600"
         }`}>
           {avatar || name.split(' ').map(n => n[0]).join('')}
         </div>
@@ -46,7 +46,7 @@ const TeamMember = ({ name, role, bio, avatar, isDarkMode }) => {
           <h3 className={`text-xl font-semibold ${isDarkMode ? "text-white" : "text-slate-800"}`}>
             {name}
           </h3>
-          <p className={`${isDarkMode ? "text-teal-400" : "text-teal-600"}`}>
+          <p className={`${isDarkMode ? "text-blue-400" : "text-blue-600"}`}>
             {role}
           </p>
         </div>
@@ -120,7 +120,7 @@ const AboutSection = () => {
       {/* Hero Section */}
       <div className="text-center mb-16">
         <h1 className={`text-4xl md:text-5xl font-bold mb-4 ${isDarkMode ? "text-white" : "text-slate-800"}`}>
-          About <span className={isDarkMode ? "text-teal-400" : "text-teal-600"}>AuroEdu</span>
+          About <span className={isDarkMode ? "text-blue-400" : "text-blue-500"}>AuroEdu</span>
         </h1>
         
         <p className={`text-xl max-w-3xl mx-auto ${isDarkMode ? "text-slate-300" : "text-slate-600"}`}>
@@ -135,7 +135,7 @@ const AboutSection = () => {
         </h2>
         
         <div className={`p-6 rounded-xl ${
-          isDarkMode ? "bg-slate-800/50 border border-slate-700" : "bg-teal-50/50 border border-teal-100"
+          isDarkMode ? "bg-slate-800/50 border border-slate-700" : "bg-blue-50/50 border border-blue-100"
         }`}>
           <p className={`text-lg mb-4 ${isDarkMode ? "text-slate-200" : "text-slate-700"}`}>
             At AuroEdu, we believe that education should be accessible, engaging, and tailored to each learner's unique needs. Our mission is to harness the power of artificial intelligence to create a learning environment where:
@@ -206,8 +206,8 @@ const AboutSection = () => {
             href="mailto:contact@auroedu.com" 
             className={`inline-block px-6 py-3 rounded-lg font-medium ${
               isDarkMode 
-                ? "bg-teal-600 hover:bg-teal-700 text-white" 
-                : "bg-teal-500 hover:bg-teal-600 text-white"
+                ? "bg-blue-600 hover:bg-blue-700 text-white" 
+                : "bg-blue-500 hover:bg-blue-600 text-white"
             } transition-colors`}
           >
             Contact Us

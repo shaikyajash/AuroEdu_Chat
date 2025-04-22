@@ -18,9 +18,7 @@ const NavigationBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Check if a path is active
-  const isActive = (path) => {
-    return location.pathname === path;
-  };
+  const isActive = (path) => location.pathname === path;
   
   // Navigation links data to avoid repetition
   const navigationLinks = [
@@ -46,21 +44,13 @@ const NavigationBar = () => {
     }
   ];
   
-  // Toggle mobile menu
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
-  
-  // Close mobile menu when a link is clicked
-  const handleLinkClick = () => {
-    if (isMobileMenuOpen) {
-      setIsMobileMenuOpen(false);
-    }
-  };
+  // Toggle mobile menu and close when link is clicked
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const handleLinkClick = () => isMobileMenuOpen && setIsMobileMenuOpen(false);
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 shadow-md ${
-      isDarkMode ? "bg-slate-900 text-slate-100" : "bg-teal-600 text-white"
+      isDarkMode ? "bg-slate-900 text-slate-100" : "bg-blue-500 text-white"
     }`}>
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
@@ -68,7 +58,7 @@ const NavigationBar = () => {
           <div className="flex items-center">
             <Link to="/" className="flex items-center gap-2" onClick={handleLinkClick}>
               <div className={`p-1.5 rounded-lg ${
-                isDarkMode ? "bg-teal-800" : "bg-teal-700"
+                isDarkMode ? "bg-blue-800" : "bg-blue-600"
               }`}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
                   <path d="M11.7 2.805a.75.75 0 0 1 .6 0A60.65 60.65 0 0 1 22.83 8.72a.75.75 0 0 1-.231 1.337 49.949 49.949 0 0 0-9.902 3.912l-.003.002-.34.18a.75.75 0 0 1-.707 0A50.009 50.009 0 0 0 7.5 12.174v-.224c0-.131.067-.248.172-.311a54.614 54.614 0 0 1 4.653-2.52.75.75 0 0 0-.65-1.352 56.129 56.129 0 0 0-4.78 2.589 1.858 1.858 0 0 0-.859 1.228 49.803 49.803 0 0 0-4.634-1.527.75.75 0 0 1-.231-1.337A60.653 60.653 0 0 1 11.7 2.805Z" />
@@ -77,7 +67,7 @@ const NavigationBar = () => {
                 </svg>
               </div>
               <span className={`text-xl font-bold ${
-                isDarkMode ? "text-teal-400" : "text-white"
+                isDarkMode ? "text-blue-400" : "text-white"
               }`}>AuroEdu</span>
             </Link>
           </div>
@@ -91,9 +81,9 @@ const NavigationBar = () => {
                 className={`flex items-center gap-1.5 px-4 py-2 rounded-md transition-colors ${
                   isActive(link.to) 
                     ? isDarkMode 
-                      ? "bg-slate-800 text-teal-400"
-                      : "bg-teal-700 text-white"
-                    : "hover:bg-opacity-20 hover:bg-teal-700"
+                      ? "bg-slate-800 text-blue-400"
+                      : "bg-blue-600 text-white"
+                    : "hover:bg-opacity-20 hover:bg-blue-600"
                 }`}
                 onClick={handleLinkClick}
               >
@@ -109,8 +99,8 @@ const NavigationBar = () => {
               onClick={toggleTheme}
               className={`p-2 rounded-full ${
                 isDarkMode 
-                  ? "bg-slate-800 hover:bg-slate-700 text-teal-400" 
-                  : "bg-teal-700 hover:bg-teal-800 text-white"
+                  ? "bg-slate-800 hover:bg-slate-700 text-blue-400" 
+                  : "bg-blue-600 hover:bg-blue-700 text-white"
               } transition-colors`}
               aria-label="Toggle theme"
             >
@@ -126,7 +116,7 @@ const NavigationBar = () => {
             </button>
             
             <div className={`hidden md:flex items-center justify-center h-9 w-9 rounded-full ${
-              isDarkMode ? "bg-slate-800 text-teal-400 border border-slate-700" : "bg-teal-700 text-white"
+              isDarkMode ? "bg-slate-800 text-blue-400 border border-slate-700" : "bg-blue-600 text-white"
             }`}>
               <UserCircleIcon className="h-6 w-6" />
             </div>
@@ -147,9 +137,9 @@ const NavigationBar = () => {
         </div>
       </div>
 
-      {/* Mobile Navigation Menu - expanded when isMobileMenuOpen is true */}
+      {/* Mobile Navigation Menu */}
       <div className={`md:hidden px-4 py-3 ${
-        isDarkMode ? "bg-slate-800 border-t border-slate-700" : "bg-teal-700 border-t border-teal-500"
+        isDarkMode ? "bg-slate-800 border-t border-slate-700" : "bg-blue-600 border-t border-blue-400"
       } ${isMobileMenuOpen ? "block" : "hidden"}`}>
         {navigationLinks.map((link) => (
           <Link 
@@ -158,9 +148,9 @@ const NavigationBar = () => {
             className={`flex items-center gap-2 py-3 px-2 ${
               isActive(link.to) 
                 ? isDarkMode 
-                  ? "text-teal-400 bg-slate-700 rounded-md" 
-                  : "text-white bg-teal-600 rounded-md"
-                : "text-white hover:bg-opacity-20 hover:bg-teal-600 rounded-md"
+                  ? "text-blue-400 bg-slate-700 rounded-md" 
+                  : "text-white bg-blue-500 rounded-md"
+                : "text-white hover:bg-opacity-20 hover:bg-blue-500 rounded-md"
             }`}
             onClick={handleLinkClick}
           >
@@ -170,9 +160,9 @@ const NavigationBar = () => {
         ))}
         
         {/* Mobile user profile link */}
-        <div className="flex items-center gap-2 py-3 px-2 mt-2 border-t border-teal-500">
+        <div className="flex items-center gap-2 py-3 px-2 mt-2 border-t border-blue-400">
           <div className={`flex items-center justify-center h-8 w-8 rounded-full ${
-            isDarkMode ? "bg-slate-700 text-teal-400" : "bg-teal-600 text-white"
+            isDarkMode ? "bg-slate-700 text-blue-400" : "bg-blue-500 text-white"
           }`}>
             <UserCircleIcon className="h-6 w-6" />
           </div>

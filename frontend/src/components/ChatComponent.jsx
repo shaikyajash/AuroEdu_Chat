@@ -26,8 +26,8 @@ const ChatBubble = ({ message, isDarkMode }) => {
           className={`p-3 rounded-xl shadow-sm ${
             isUser
               ? isDarkMode
-                ? "bg-teal-600 text-white rounded-br-none"
-                : "bg-teal-500 text-white rounded-br-none"
+                ? "bg-blue-600 text-white rounded-br-none"
+                : "bg-blue-500 text-white rounded-br-none"
               : isDarkMode
               ? "bg-slate-800 text-slate-100 rounded-bl-none border border-slate-700"
               : "bg-white text-slate-800 rounded-bl-none border border-slate-100"
@@ -45,12 +45,12 @@ const TypingIndicator = ({ isDarkMode }) => (
   <div className="flex justify-start">
     <div className={`p-3 rounded-lg ${isDarkMode ? "bg-slate-800" : "bg-white"}`}>
       <div className="flex gap-2 items-center">
-        <CommandLineIcon className={`h-4 w-4 ${isDarkMode ? "text-teal-400" : "text-teal-500"}`} />
+        <CommandLineIcon className={`h-4 w-4 ${isDarkMode ? "text-blue-400" : "text-blue-500"}`} />
         <div className="flex gap-1">
           {[...Array(3)].map((_, i) => (
             <div
               key={i}
-              className={`w-2 h-2 rounded-full ${isDarkMode ? "bg-teal-400" : "bg-teal-500"} animate-bounce`}
+              className={`w-2 h-2 rounded-full ${isDarkMode ? "bg-blue-400" : "bg-blue-500"} animate-bounce`}
               style={{ animationDelay: `${i * 0.2}s` }}
             />
           ))}
@@ -225,7 +225,7 @@ const ChatComponent = () => {
         {messages.length === 0 && (
           <div className="flex items-center justify-center h-full">
             <div className="text-center max-w-md">
-              <div className={`mb-4 text-5xl ${isDarkMode ? "text-teal-400" : "text-teal-500"}`}>💬</div>
+              <div className={`mb-4 text-5xl ${isDarkMode ? "text-blue-400" : "text-blue-500"}`}>💬</div>
               <p className={`text-lg font-medium ${isDarkMode ? "text-slate-300" : "text-slate-700"}`}>
                 Start a conversation
               </p>
@@ -267,8 +267,8 @@ const ChatComponent = () => {
             placeholder="Type your message..."
             className={`flex-1 px-4 py-3 rounded-full focus:outline-none focus:ring-2 ${
               isDarkMode 
-                ? "bg-slate-800 text-slate-100 border border-slate-700 focus:ring-teal-500/50" 
-                : "bg-white text-slate-900 border border-gray-200 focus:ring-teal-500/50"
+                ? "bg-slate-800 text-slate-100 border border-slate-700 focus:ring-blue-500/50" 
+                : "bg-white text-slate-900 border border-gray-200 focus:ring-blue-500/50"
             }`}
           />
           
@@ -278,7 +278,7 @@ const ChatComponent = () => {
             className={`p-3 rounded-full w-12 h-12 flex items-center justify-center transition-all ${
               loading || !input.trim()
                 ? isDarkMode ? "bg-slate-700 text-slate-500" : "bg-gray-200 text-gray-400"
-                : isDarkMode ? "bg-teal-600 text-white" : "bg-teal-500 text-white"
+                : isDarkMode ? "bg-blue-600 text-white" : "bg-blue-500 text-white"
             }`}
           >
             {loading ? (
@@ -289,7 +289,6 @@ const ChatComponent = () => {
           </button>
         </form>
         
-        {/* Loading status indicator - subtle and unobtrusive */}
         {loading && (
           <div className={`text-center text-xs mt-1 ${isDarkMode ? "text-slate-500" : "text-gray-400"}`}>
             AI is responding...

@@ -62,7 +62,7 @@ const ResourceCard = ({ resource, isDarkMode }) => {
             </h3>
             <div className="flex items-center gap-2 mt-1">
               <span className={`flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${
-                isDarkMode ? "bg-slate-700 text-teal-300" : "bg-teal-100 text-teal-700"
+                isDarkMode ? "bg-slate-700 text-blue-300" : "bg-blue-100 text-blue-700"
               }`}>
                 {getTypeIcon(resource.type)}
                 <span>{resource.type.charAt(0).toUpperCase() + resource.type.slice(1)}</span>
@@ -116,7 +116,7 @@ const ResourceCard = ({ resource, isDarkMode }) => {
                   fill="currentColor" 
                   className={`w-4 h-4 ${
                     i < Math.floor(resource.rating) 
-                      ? isDarkMode ? "text-teal-400" : "text-teal-500"
+                      ? isDarkMode ? "text-blue-400" : "text-blue-500"
                       : isDarkMode ? "text-slate-600" : "text-gray-300"
                   }`}
                 >
@@ -132,7 +132,7 @@ const ResourceCard = ({ resource, isDarkMode }) => {
           <a 
             href="#" 
             className={`flex items-center gap-1 text-sm font-medium ${
-              isDarkMode ? "text-teal-400 hover:text-teal-300" : "text-teal-600 hover:text-teal-500"
+              isDarkMode ? "text-blue-400 hover:text-blue-300" : "text-blue-600 hover:text-blue-500"
             }`}
           >
             <span>View</span>
@@ -191,7 +191,7 @@ const ResourcesSection = () => {
                 isDarkMode 
                   ? "bg-slate-700 border border-slate-600 text-white placeholder:text-slate-400" 
                   : "bg-white border border-slate-200 text-slate-800 placeholder:text-slate-400"
-              } focus:outline-none focus:ring-2 focus:ring-teal-500`}
+              } focus:outline-none focus:ring-2 focus:ring-blue-500`}
             />
           </div>
           
@@ -215,8 +215,8 @@ const ResourcesSection = () => {
             className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
               activeFilter === filter.id
                 ? isDarkMode 
-                  ? "bg-teal-600 text-white" 
-                  : "bg-teal-500 text-white"
+                  ? "bg-blue-600 text-white" 
+                  : "bg-blue-500 text-white"
                 : isDarkMode 
                   ? "bg-slate-800 text-slate-300 hover:bg-slate-700" 
                   : "bg-white text-slate-700 border border-slate-200 hover:bg-gray-100"

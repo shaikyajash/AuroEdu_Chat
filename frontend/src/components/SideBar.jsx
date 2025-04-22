@@ -63,7 +63,7 @@ const Sidebar = () => {
         }`}>
           <div className="flex items-center justify-between mb-4">
             <h4 className={`font-bold text-xl ${
-              isDarkMode ? 'bg-gradient-to-r from-teal-400 to-teal-300 text-transparent bg-clip-text' : 'bg-gradient-to-r from-teal-600 to-teal-500 text-transparent bg-clip-text'
+              isDarkMode ? 'bg-gradient-to-r from-blue-400 to-blue-300 text-transparent bg-clip-text' : 'bg-gradient-to-r from-blue-600 to-blue-500 text-transparent bg-clip-text'
             }`}>
               AuroEdu
             </h4>
@@ -72,8 +72,8 @@ const Sidebar = () => {
                 onClick={toggleTheme}
                 className={`p-2 rounded-full transition-colors ${
                   isDarkMode 
-                    ? 'bg-slate-800 hover:bg-slate-700 text-teal-400' 
-                    : 'bg-gray-100 hover:bg-gray-200 text-teal-600'
+                    ? 'bg-slate-800 hover:bg-slate-700 text-blue-400' 
+                    : 'bg-gray-100 hover:bg-gray-200 text-blue-600'
                 }`}
               >
                 {isDarkMode ? (
@@ -90,8 +90,8 @@ const Sidebar = () => {
           <button
             className={`flex items-center justify-center gap-2 w-full py-3 px-4 rounded-full shadow-sm ${
               isDarkMode 
-                ? 'bg-gradient-to-r from-teal-600 to-teal-500 hover:from-teal-500 hover:to-teal-400 text-white' 
-                : 'bg-gradient-to-r from-teal-500 to-teal-400 hover:from-teal-400 hover:to-teal-300 text-white'
+                ? 'bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white' 
+                : 'bg-gradient-to-r from-blue-500 to-blue-400 hover:from-blue-400 hover:to-blue-300 text-white'
             } transition-all transform active:scale-[0.98]`}
             onClick={createNewSession}
           >
@@ -125,10 +125,10 @@ const Sidebar = () => {
                   <div className={`p-2 rounded-lg ${
                     isDarkMode 
                       ? currentSessionId === session.id
-                        ? 'bg-teal-900/50 text-teal-300'
+                        ? 'bg-blue-900/50 text-blue-300'
                         : 'bg-slate-800 text-slate-400'
                       : currentSessionId === session.id
-                        ? 'bg-teal-100 text-teal-600'
+                        ? 'bg-blue-100 text-blue-600'
                         : 'bg-gray-200 text-gray-500'
                   }`}>
                     <ChatBubbleLeftRightIcon className="h-4 w-4" />
@@ -137,8 +137,8 @@ const Sidebar = () => {
                     <p className={`font-medium truncate ${
                       currentSessionId === session.id
                         ? isDarkMode 
-                          ? 'text-teal-300'
-                          : 'text-teal-700'
+                          ? 'text-blue-300'
+                          : 'text-blue-700'
                         : ''
                     }`}>
                       {session.name}
