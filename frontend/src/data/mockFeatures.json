@@ -1,0 +1,32 @@
+[
+  {
+    "icon": "LightBulbIcon",
+    "title": "AI-Powered Learning",
+    "description": "Leverage advanced AI technology to enhance your educational experience with personalized learning paths and intelligent feedback."
+  },
+  {
+    "icon": "ChatBubbleLeftRightIcon",
+    "title": "Interactive Discussions",
+    "description": "Engage in meaningful conversations with peers and educators in our structured discussion forums dedicated to various academic subjects."
+  },
+  {
+    "icon": "DocumentTextIcon",
+    "title": "Rich Resources",
+    "description": "Access a growing library of high-quality educational materials including documents, videos, and interactive courses across disciplines."
+  },
+  {
+    "icon": "UserGroupIcon",
+    "title": "Community Learning",
+    "description": "Join a vibrant community of learners and educators who collaborate to solve problems and share knowledge."
+  },
+  {
+    "icon": "GlobeAltIcon",
+    "title": "Accessible Anywhere",
+    "description": "Study anytime, anywhere with our platform that works seamlessly across devices and provides offline access to key materials."
+  },
+  {
+    "icon": "PresentationChartLineIcon",
+    "title": "Progress Tracking",
+    "description": "Monitor your educational journey with detailed analytics and insights that help you understand your strengths and areas for improvement."
+  }
+]

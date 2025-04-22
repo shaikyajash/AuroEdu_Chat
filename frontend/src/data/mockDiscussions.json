@@ -1,0 +1,46 @@
+[
+  {
+    "id": 1,
+    "title": "Understanding Machine Learning Fundamentals",
+    "author": "Jane Cooper",
+    "avatar": "JC",
+    "date": "2025-04-18",
+    "content": "I've been working on understanding neural networks, but I'm struggling with backpropagation concepts. Can anyone explain this in simpler terms?",
+    "likes": 15,
+    "replies": 8,
+    "tags": ["machine-learning", "neural-networks", "mathematics"]
+  },
+  {
+    "id": 2,
+    "title": "Effective Study Techniques for Computer Science",
+    "author": "Robert Fox",
+    "avatar": "RF",
+    "date": "2025-04-19",
+    "content": "What study techniques work best for retaining programming concepts? I find myself forgetting syntax and patterns frequently.",
+    "likes": 24,
+    "replies": 13,
+    "tags": ["study-methods", "computer-science", "learning"]
+  },
+  {
+    "id": 3,
+    "title": "Resources for Advanced Calculus",
+    "author": "Leslie Alexander",
+    "avatar": "LA",
+    "date": "2025-04-20",
+    "content": "I'm looking for comprehensive resources on advanced calculus, particularly focusing on multivariable calculus and applications in physics.",
+    "likes": 9,
+    "replies": 5,
+    "tags": ["calculus", "physics", "mathematics"]
+  },
+  {
+    "id": 4,
+    "title": "Tips for Remote Learning Productivity",
+    "author": "Esther Howard",
+    "avatar": "EH",
+    "date": "2025-04-21",
+    "content": "How do you maintain focus during long remote learning sessions? I'm having trouble staying productive throughout the day.",
+    "likes": 31,
+    "replies": 17,
+    "tags": ["productivity", "remote-learning", "study-habits"]
+  }
+]

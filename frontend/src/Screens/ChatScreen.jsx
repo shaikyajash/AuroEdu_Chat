@@ -13,7 +13,7 @@ function ChatScreen() {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
+
     checkMobile();
     
     window.addEventListener('resize', checkMobile);
@@ -21,7 +21,7 @@ function ChatScreen() {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
   
-  // Prevent body scrolling when sidebar is open on mobile
+
   useEffect(() => {
     if (isMobile && sidebarOpen) {
       document.body.style.overflow = 'hidden';
@@ -41,18 +41,16 @@ function ChatScreen() {
   }, [isMobile]);
 
   return (
-    <div className={`flex h-screen w-screen overflow-hidden ${
-      isDarkMode 
-        ? 'bg-gradient-subtle from-secondary-900 via-secondary-800 to-secondary-900' 
-        : 'bg-gradient-subtle from-primary-50 via-white to-accent-50'
+    <div className={`fixed inset-x-0 top-16 bottom-0 md:flex ${
+      isDarkMode ? "bg-slate-900 text-white" : "bg-gray-50 text-slate-800"
     }`}>
       {isMobile && (
         <button 
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className={`fixed top-3 ${sidebarOpen ? 'right-3' : 'left-3'} z-50 p-2 rounded-full shadow-md transition-all duration-300 ${
+          className={`fixed top-20 ${sidebarOpen ? 'right-3' : 'left-3'} z-40 p-2 rounded-full shadow-md transition-all duration-300 ${
             isDarkMode 
-              ? 'bg-gray-800 text-violet-400 hover:bg-gray-700' 
-              : 'bg-white text-violet-600 hover:bg-gray-100'
+              ? 'bg-slate-800 text-teal-400 hover:bg-slate-700' 
+              : 'bg-white text-teal-600 hover:bg-gray-100'
           }`}
           aria-label={sidebarOpen ? "Close sidebar" : "Open sidebar"}
         >
@@ -66,8 +64,8 @@ function ChatScreen() {
       
       <div className={`
         ${isMobile 
-          ? `fixed inset-y-0 left-0 z-40 h-full transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0 w-[80vw]' : '-translate-x-full'}` 
-          : 'relative'
+          ? `fixed inset-y-16 left-0 z-30 h-[calc(100%-64px)] transform transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0 w-[80vw]' : '-translate-x-full'}` 
+          : 'w-1/4 max-w-xs'
         }
       `}>
         <Sidebar />
@@ -75,12 +73,12 @@ function ChatScreen() {
       
       {isMobile && sidebarOpen && (
         <div 
-          className="fixed inset-0 bg-black opacity-50 z-30"
+          className="fixed inset-0 top-16 bg-black opacity-50 z-20"
           onClick={() => setSidebarOpen(false)}
         />
       )}
       
-      <div className={`flex-1 ${isMobile ? 'h-screen w-screen' : 'relative'}`}>
+      <div className="flex-1 overflow-hidden h-full">
         <ChatComponent />
       </div>
     </div>
