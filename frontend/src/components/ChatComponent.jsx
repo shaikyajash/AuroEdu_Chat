@@ -35,14 +35,14 @@ const ChatBubble = ({ message, isDarkMode }) => {
     <div className={`flex ${isUser ? "justify-end" : "justify-start"} group`}>
       <div className="flex flex-col max-w-[80%] gap-1">
         <div
-          className={`p-3 rounded-xl ${
+          className={`p-3 rounded-xl shadow-sm ${
             isUser
               ? isDarkMode
-                ? "bg-blue-900 text-white rounded-br-none"
-                : "bg-blue-500 text-white rounded-br-none"
+                ? "bg-gradient-to-br from-violet-600 to-indigo-600 text-white rounded-br-none"
+                : "bg-gradient-to-br from-violet-500 to-indigo-500 text-white rounded-br-none"
               : isDarkMode
-              ? "bg-gray-800 text-gray-100 rounded-bl-none"
-              : "bg-gray-200 text-gray-900 rounded-bl-none"
+              ? "bg-gray-800 text-gray-100 rounded-bl-none border border-gray-700"
+              : "bg-white text-gray-800 rounded-bl-none border border-gray-100 shadow-sm"
           }`}
         >
           <p className="whitespace-pre-wrap">
@@ -64,14 +64,16 @@ const ChatBubble = ({ message, isDarkMode }) => {
 const TypingIndicator = ({ isDarkMode }) => (
   <div className="flex justify-start">
     <div
-      className={`p-4 rounded-lg ${
-        isDarkMode ? "bg-gray-800" : "bg-gray-200"
+      className={`p-3 rounded-lg ${
+        isDarkMode 
+          ? "bg-gray-800 border border-gray-700" 
+          : "bg-white border border-gray-100 shadow-sm"
       }`}
     >
       <div className="flex gap-2 items-center">
         <CommandLineIcon
-          className={`h-5 w-5 ${
-            isDarkMode ? "text-gray-400" : "text-gray-600"
+          className={`h-4 w-4 ${
+            isDarkMode ? "text-violet-400" : "text-violet-500"
           }`}
         />
         <div className="flex gap-1">
@@ -79,7 +81,9 @@ const TypingIndicator = ({ isDarkMode }) => (
             <div
               key={i}
               className={`w-2 h-2 rounded-full ${
-                isDarkMode ? "bg-gray-400" : "bg-gray-600"
+                isDarkMode 
+                  ? "bg-violet-400" 
+                  : "bg-violet-500"
               } animate-bounce`}
               style={{ animationDelay: `${i * 0.2}s` }}
             />
@@ -195,23 +199,31 @@ const ChatComponent = () => {
   return (
     <div
       className={`flex-1 h-screen overflow-hidden flex flex-col ${
-        isDarkMode ? "bg-gray-900" : "bg-white"
+        isDarkMode 
+          ? "bg-gray-900 bg-gradient-to-br from-gray-900 to-gray-800" 
+          : "bg-gray-50 bg-gradient-to-br from-gray-50 to-white"
       }`}
     >
       {/* API Error Banner */}
       {apiError && (
-        <div className="bg-red-600 text-white px-4 py-2 text-sm">
+        <div className="bg-red-500 text-white px-4 py-2 text-sm shadow-md">
           API error occurred. Please check your console and verify your API key is correct.
         </div>
       )}
       
       {/* Chat Messages */}
-      <div className="flex-1 overflow-y-auto mb-4 space-y-4 p-4">
+      <div className="flex-1 overflow-y-auto mb-2 space-y-6 p-4 md:p-6">
         {messages.length === 0 && (
           <div className="flex items-center justify-center h-full">
-            <p className={`text-center ${isDarkMode ? "text-gray-400" : "text-gray-600"}`}>
-              Start a conversation by typing a message below.
-            </p>
+            <div className="text-center max-w-md mx-auto">
+              <div className={`mb-4 text-5xl ${isDarkMode ? "text-violet-400" : "text-violet-500"}`}>💬</div>
+              <p className={`text-lg font-medium mb-2 ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
+                Start a conversation
+              </p>
+              <p className={`${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
+                Type a message below to begin chatting with the AI assistant.
+              </p>
+            </div>
           </div>
         )}
         
@@ -225,58 +237,59 @@ const ChatComponent = () => {
       </div>
 
       {/* Message Input Form */}
-      <form
-        onSubmit={handleSubmit}
-        className={`flex gap-2 p-4 border-t relative z-10 ${
+      <div
+        className={`px-4 py-3 border-t relative z-10 ${
           isDarkMode
-            ? "border-gray-800 bg-gray-900"
-            : "border-gray-300 bg-white"
+            ? "border-gray-800 bg-gray-900/70 backdrop-blur-sm" 
+            : "border-gray-200 bg-white/70 backdrop-blur-sm shadow-sm"
         }`}
       >
-        <div className="flex-1 min-w-0 relative">
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your message..."
-            className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-opacity-50 ${
-              isDarkMode 
-                ? "bg-gray-800 text-gray-100 border-gray-700 focus:ring-blue-500"
-                : "bg-white text-gray-900 border-gray-300 focus:ring-blue-500"
-            }`}
-          />
-          {input.length > 0 && (
-            <span
-              className={`absolute right-3 bottom-2 text-xs ${
-                isDarkMode ? "text-gray-400" : "text-gray-600"
-              } transition-opacity`}
+        <form onSubmit={handleSubmit} className="flex gap-2 max-w-4xl mx-auto">
+          <div className="flex-1 min-w-0 relative">
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type your message..."
+              className={`w-full px-4 py-3 border rounded-full focus:outline-none focus:ring-2 focus:ring-opacity-50 ${
+                isDarkMode 
+                  ? "bg-gray-800 text-gray-100 border-gray-700 focus:ring-violet-500 placeholder-gray-500"
+                  : "bg-white text-gray-900 border-gray-200 focus:ring-violet-500 placeholder-gray-400"
+              }`}
+            />
+            {input.length > 0 && (
+              <span
+                className={`absolute right-4 bottom-3 text-xs ${
+                  isDarkMode ? "text-gray-400" : "text-gray-500"
+                } transition-opacity`}
+              >
+                Press Enter ↵
+              </span>
+            )}
+          </div>
+          
+          {/* Send Button */}
+          <div className="relative group">
+            <button
+              type="submit"
+              disabled={loading || !input.trim()}
+              className={`flex items-center justify-center p-3 rounded-full w-12 h-12 transition-all transform active:scale-95 ${
+                loading || !input.trim()
+                  ? isDarkMode
+                    ? "bg-gray-700 cursor-not-allowed text-gray-500"
+                    : "bg-gray-200 cursor-not-allowed text-gray-400"
+                  : isDarkMode
+                  ? "bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white shadow-md"
+                  : "bg-gradient-to-r from-violet-500 to-indigo-500 hover:from-violet-400 hover:to-indigo-400 text-white shadow-md"
+              }`}
             >
-              Press Enter ↵
+              <PaperAirplaneIcon className="h-5 w-5" />
+            </button>
+            <span className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded-md opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap">
+              Send message
             </span>
-          )}
-        </div>
-        
-        {/* Send Button */}
-        <div className="relative group">
-          <button
-            type="submit"
-            disabled={loading || !input.trim()}
-            className={`flex items-center justify-center p-3 rounded-full ${
-              loading || !input.trim()
-                ? isDarkMode
-                  ? "bg-gray-700 cursor-not-allowed"
-                  : "bg-gray-300 cursor-not-allowed"
-                : isDarkMode
-                ? "bg-blue-700 hover:bg-blue-800"
-                : "bg-blue-500 hover:bg-blue-600"
-            } transition-colors`}
-          >
-            <PaperAirplaneIcon className="h-5 w-5 text-white" />
-          </button>
-          <span className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap">
-            Send message
-          </span>
-        </div>
-      </form>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

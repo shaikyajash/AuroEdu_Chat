@@ -48,18 +48,18 @@ const Sidebar = () => {
     <>
       <div className={`h-screen w-80 p-0 shadow-xl rounded-none backdrop-blur-sm ${
         isDarkMode 
-          ? 'bg-secondary-800/90 text-secondary-100 border-r border-secondary-700' 
-          : 'bg-white/80 text-secondary-900 border-r border-secondary-200'
+          ? 'bg-gray-900/90 text-gray-100 border-r border-gray-800' 
+          : 'bg-white/90 text-gray-900 border-r border-gray-100'
       }`}>
         {/* Header */}
         <div className={`p-5 ${
           isDarkMode 
-            ? 'bg-gradient-subtle from-secondary-800 to-secondary-900/50' 
-            : 'bg-gradient-subtle from-primary-50 to-white'
-        } border-b ${isDarkMode ? 'border-secondary-700' : 'border-secondary-200'}`}>
-          <div className="flex items-center justify-between mb-3">
-            <h4 className={`font-semibold text-xl ${
-              isDarkMode ? 'text-primary-300' : 'text-primary-600'
+            ? 'bg-gradient-to-r from-gray-900 to-gray-800 border-b border-gray-800' 
+            : 'bg-gradient-to-r from-white to-gray-50 border-b border-gray-100'
+        }`}>
+          <div className="flex items-center justify-between mb-4">
+            <h4 className={`font-bold text-xl ${
+              isDarkMode ? 'bg-gradient-to-r from-violet-400 to-indigo-400 text-transparent bg-clip-text' : 'bg-gradient-to-r from-violet-600 to-indigo-600 text-transparent bg-clip-text'
             }`}>
               AuroEdu
             </h4>
@@ -68,8 +68,8 @@ const Sidebar = () => {
                 onClick={toggleTheme}
                 className={`p-2 rounded-full transition-colors ${
                   isDarkMode 
-                    ? 'hover:bg-secondary-700 text-primary-300' 
-                    : 'hover:bg-primary-50 text-primary-600'
+                    ? 'bg-gray-800 hover:bg-gray-700 text-violet-400' 
+                    : 'bg-gray-100 hover:bg-gray-200 text-violet-600'
                 }`}
               >
                 {isDarkMode ? (
@@ -84,11 +84,11 @@ const Sidebar = () => {
             </div>
           </div>
           <button
-            className={`flex items-center gap-2 w-full shadow-sm py-2 px-4 rounded-md ${
+            className={`flex items-center justify-center gap-2 w-full py-3 px-4 rounded-full shadow-sm ${
               isDarkMode 
-                ? 'bg-gradient-subtle from-primary-600 to-primary-700 hover:from-primary-500 hover:to-primary-600 text-white' 
-                : 'bg-gradient-subtle from-primary-500 to-primary-600 hover:from-primary-400 hover:to-primary-500 text-white'
-            }`}
+                ? 'bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white' 
+                : 'bg-gradient-to-r from-violet-500 to-indigo-500 hover:from-violet-400 hover:to-indigo-400 text-white'
+            } transition-all transform active:scale-[0.98]`}
             onClick={createNewSession}
           >
             <PlusIcon className="h-4 w-4" />
@@ -97,64 +97,64 @@ const Sidebar = () => {
         </div>
 
         {/* Chat List */}
-        <div className={`overflow-y-auto p-2 flex-1 ${
-          isDarkMode ? 'text-secondary-100' : 'text-secondary-900'
+        <div className={`overflow-y-auto p-3 flex-1 ${
+          isDarkMode ? 'text-gray-300' : 'text-gray-700'
         }`}>
           {chatSessions.map((session) => (
             <div
               key={session.id}
               onClick={() => switchSession(session.id)}
-              className={`group mb-2 p-3 cursor-pointer ${
+              className={`group mb-2 p-3 cursor-pointer transition-all duration-200 rounded-xl ${
                 isDarkMode 
-                  ? 'hover:bg-secondary-700/50' 
-                  : 'hover:bg-primary-50/50'
+                  ? 'hover:bg-gray-800/70' 
+                  : 'hover:bg-gray-100/70'
               } ${
                 currentSessionId === session.id 
                   ? isDarkMode 
-                    ? 'bg-secondary-700/50 border border-secondary-600'
-                    : 'bg-primary-50/50 border border-primary-200'
+                    ? 'bg-gray-800 border border-gray-700 shadow-sm'
+                    : 'bg-gray-100 border border-gray-200 shadow-sm'
                   : ''
-              } rounded-xl transition-all duration-200`}
+              }`}
             >
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-3">
-                  <ChatBubbleLeftRightIcon className={`h-5 w-5 ${
+              <div className="flex justify-between items-center">
+                <div className="flex items-center gap-3 flex-1 min-w-0">
+                  <div className={`p-2 rounded-lg ${
                     isDarkMode 
                       ? currentSessionId === session.id
-                        ? 'text-primary-400'
-                        : 'text-secondary-400'
+                        ? 'bg-violet-900/50 text-violet-300'
+                        : 'bg-gray-800 text-gray-400'
                       : currentSessionId === session.id
-                        ? 'text-primary-600'
-                        : 'text-secondary-500'
-                  }`} />
+                        ? 'bg-violet-100 text-violet-600'
+                        : 'bg-gray-200 text-gray-500'
+                  }`}>
+                    <ChatBubbleLeftRightIcon className="h-4 w-4" />
+                  </div>
                   <div className="flex-1 min-w-0">
                     <p className={`font-medium truncate ${
                       currentSessionId === session.id
                         ? isDarkMode 
-                          ? 'text-primary-300'
-                          : 'text-primary-700'
+                          ? 'text-violet-300'
+                          : 'text-violet-700'
                         : ''
                     }`}>
                       {session.name}
                     </p>
                     <p
                       className={`text-sm truncate ${
-                        isDarkMode ? 'text-secondary-400' : 'text-secondary-600'
+                        isDarkMode ? 'text-gray-400' : 'text-gray-500'
                       }`}
                     >
                       {getLastMessage(session.messages)}
                     </p>
                   </div>
                 </div>
-              </div>
-              <div className="flex justify-end">
                 <div className={`opacity-0 group-hover:opacity-100 transition-opacity`}>
                   <button
-                    className={`p-1 rounded-full ${
+                    className={`p-1.5 rounded-full ${
                       isDarkMode 
-                        ? 'hover:bg-secondary-600 text-secondary-400 hover:text-secondary-200' 
-                        : 'hover:bg-secondary-100 text-secondary-500 hover:text-secondary-700'
-                    }`}
+                        ? 'hover:bg-gray-700 text-gray-400 hover:text-red-400' 
+                        : 'hover:bg-gray-200 text-gray-400 hover:text-red-500'
+                    } transition-colors`}
                     onClick={(e) => handleDelete(e, session.id)}
                   >
                     <TrashIcon className="h-4 w-4" />
@@ -164,17 +164,17 @@ const Sidebar = () => {
             </div>
           ))}
           {chatSessions.length === 0 && (
-            <div className="flex flex-col items-center justify-center h-32 p-4">
+            <div className="flex flex-col items-center justify-center h-32 p-6">
               <p
                 className={`text-center text-sm ${
-                  isDarkMode ? 'text-secondary-400' : 'text-secondary-600'
+                  isDarkMode ? 'text-gray-400' : 'text-gray-500'
                 }`}
               >
                 No chat sessions yet
               </p>
               <p
                 className={`text-center text-sm ${
-                  isDarkMode ? 'text-secondary-500' : 'text-secondary-500'
+                  isDarkMode ? 'text-gray-500' : 'text-gray-500'
                 }`}
               >
                 Click the New Chat button to start
@@ -186,32 +186,36 @@ const Sidebar = () => {
 
       {/* Delete Dialog */}
       {showDeleteDialog && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className={`p-6 rounded-lg shadow-lg max-w-sm w-full ${
-            isDarkMode ? 'bg-secondary-800' : 'bg-white'
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className={`p-6 rounded-xl shadow-lg max-w-sm w-full ${
+            isDarkMode ? 'bg-gray-900 border border-gray-800' : 'bg-white'
           }`}>
-            <h3 className={`text-lg font-medium mb-2 ${
-              isDarkMode ? 'text-secondary-100' : 'text-gray-900'
+            <h3 className={`text-lg font-semibold mb-2 ${
+              isDarkMode ? 'text-gray-100' : 'text-gray-900'
             }`}>
               Delete Chat
             </h3>
-            <p className={isDarkMode ? 'text-secondary-300 mb-6' : 'text-gray-600 mb-6'}>
+            <p className={isDarkMode ? 'text-gray-400 mb-6' : 'text-gray-600 mb-6'}>
               Are you sure you want to delete this chat? This action cannot be undone.
             </p>
-            <div className="flex justify-end gap-2">
+            <div className="flex justify-end gap-3">
               <button
                 onClick={() => setShowDeleteDialog(false)}
-                className={`px-4 py-2 rounded ${
+                className={`px-4 py-2 rounded-lg ${
                   isDarkMode 
-                    ? 'bg-secondary-700 text-white hover:bg-secondary-600' 
-                    : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-                }`}
+                    ? 'bg-gray-800 text-gray-300 hover:bg-gray-700' 
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                } transition-colors`}
               >
                 Cancel
               </button>
               <button
                 onClick={confirmDelete}
-                className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
+                className={`px-4 py-2 rounded-lg bg-gradient-to-r ${
+                  isDarkMode
+                    ? 'from-red-600 to-red-500 hover:from-red-500 hover:to-red-400'
+                    : 'from-red-600 to-red-500 hover:from-red-500 hover:to-red-400'
+                } text-white transition-colors`}
               >
                 Delete
               </button>
