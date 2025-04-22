@@ -8,7 +8,17 @@ const useChatStore = create(
       chatSessions: [],
       currentSessionId: null,
       loading: false,
-      setLoading: (status) => set({ loading: status }),
+      
+      // Ensure loading state is managed correctly
+      setLoading: (status) => {
+        // Add safeguards to prevent incorrect state
+        if (typeof status === 'boolean') {
+          set({ loading: status });
+        } else {
+          console.error("setLoading received non-boolean value:", status);
+          set({ loading: false }); // Safe fallback
+        }
+      },
       
       createNewSession: () => {
         const newSession = {
@@ -19,7 +29,8 @@ const useChatStore = create(
         set(state => ({
           chatSessions: [...state.chatSessions, newSession],
           currentSessionId: newSession.id,
-          messages: []
+          messages: [],
+          loading: false // Reset loading state when creating a new session
         }));
         return newSession.id;
       },
@@ -105,6 +116,11 @@ const useChatStore = create(
               : []
           };
         });
+      },
+
+      // Add a reset loading method for emergency use
+      resetLoading: () => {
+        set({ loading: false });
       }
     }),
     {

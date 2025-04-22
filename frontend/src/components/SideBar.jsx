@@ -1,21 +1,5 @@
 import React, { useState } from "react";
 import {
-  Card,
-  Typography,
-  List,
-  ListItem,
-  ListItemPrefix,
-  ListItemSuffix,
-  IconButton,
-  Button,
-  Tooltip,
-  Dialog,
-  DialogHeader,
-  DialogBody,
-  DialogFooter,
-  Chip,
-} from "@material-tailwind/react";
-import {
   ChatBubbleLeftRightIcon,
   SunIcon,
   MoonIcon,
@@ -62,7 +46,7 @@ const Sidebar = () => {
 
   return (
     <>
-      <Card className={`h-screen w-80 p-0 shadow-xl rounded-none backdrop-blur-sm ${
+      <div className={`h-screen w-80 p-0 shadow-xl rounded-none backdrop-blur-sm ${
         isDarkMode 
           ? 'bg-secondary-800/90 text-secondary-100 border-r border-secondary-700' 
           : 'bg-white/80 text-secondary-900 border-r border-secondary-200'
@@ -74,17 +58,15 @@ const Sidebar = () => {
             : 'bg-gradient-subtle from-primary-50 to-white'
         } border-b ${isDarkMode ? 'border-secondary-700' : 'border-secondary-200'}`}>
           <div className="flex items-center justify-between mb-3">
-            <Typography variant="h4" className={`font-semibold ${
+            <h4 className={`font-semibold text-xl ${
               isDarkMode ? 'text-primary-300' : 'text-primary-600'
             }`}>
               AuroEdu
-            </Typography>
-            <Tooltip content={isDarkMode ? "Light mode" : "Dark mode"}>
-              <IconButton
-                variant="text"
-                color={isDarkMode ? "white" : "blue-gray"}
+            </h4>
+            <div className="relative group">
+              <button
                 onClick={toggleTheme}
-                className={`rounded-full ${
+                className={`p-2 rounded-full transition-colors ${
                   isDarkMode 
                     ? 'hover:bg-secondary-700 text-primary-300' 
                     : 'hover:bg-primary-50 text-primary-600'
@@ -95,12 +77,14 @@ const Sidebar = () => {
                 ) : (
                   <MoonIcon className="h-5 w-5" />
                 )}
-              </IconButton>
-            </Tooltip>
+              </button>
+              <span className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap">
+                {isDarkMode ? "Light mode" : "Dark mode"}
+              </span>
+            </div>
           </div>
-          <Button
-            size="sm"
-            className={`flex items-center gap-2 w-full shadow-sm ${
+          <button
+            className={`flex items-center gap-2 w-full shadow-sm py-2 px-4 rounded-md ${
               isDarkMode 
                 ? 'bg-gradient-subtle from-primary-600 to-primary-700 hover:from-primary-500 hover:to-primary-600 text-white' 
                 : 'bg-gradient-subtle from-primary-500 to-primary-600 hover:from-primary-400 hover:to-primary-500 text-white'
@@ -109,17 +93,18 @@ const Sidebar = () => {
           >
             <PlusIcon className="h-4 w-4" />
             New Chat
-          </Button>
+          </button>
         </div>
 
         {/* Chat List */}
-        <List className={`overflow-y-auto p-2 flex-1 ${
+        <div className={`overflow-y-auto p-2 flex-1 ${
           isDarkMode ? 'text-secondary-100' : 'text-secondary-900'
         }`}>
           {chatSessions.map((session) => (
-            <ListItem
+            <div
               key={session.id}
-              className={`group mb-2 ${
+              onClick={() => switchSession(session.id)}
+              className={`group mb-2 p-3 cursor-pointer ${
                 isDarkMode 
                   ? 'hover:bg-secondary-700/50' 
                   : 'hover:bg-primary-50/50'
@@ -130,7 +115,6 @@ const Sidebar = () => {
                     : 'bg-primary-50/50 border border-primary-200'
                   : ''
               } rounded-xl transition-all duration-200`}
-              onClick={() => switchSession(session.id)}
             >
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-3">
@@ -144,7 +128,7 @@ const Sidebar = () => {
                         : 'text-secondary-500'
                   }`} />
                   <div className="flex-1 min-w-0">
-                    <Typography className={`font-medium truncate ${
+                    <p className={`font-medium truncate ${
                       currentSessionId === session.id
                         ? isDarkMode 
                           ? 'text-primary-300'
@@ -152,24 +136,21 @@ const Sidebar = () => {
                         : ''
                     }`}>
                       {session.name}
-                    </Typography>
-                    <Typography
-                      variant="small"
-                      className={`truncate ${
+                    </p>
+                    <p
+                      className={`text-sm truncate ${
                         isDarkMode ? 'text-secondary-400' : 'text-secondary-600'
                       }`}
                     >
                       {getLastMessage(session.messages)}
-                    </Typography>
+                    </p>
                   </div>
                 </div>
               </div>
-              <ListItemSuffix>
+              <div className="flex justify-end">
                 <div className={`opacity-0 group-hover:opacity-100 transition-opacity`}>
-                  <IconButton
-                    variant="text"
-                    size="sm"
-                    className={`rounded-full ${
+                  <button
+                    className={`p-1 rounded-full ${
                       isDarkMode 
                         ? 'hover:bg-secondary-600 text-secondary-400 hover:text-secondary-200' 
                         : 'hover:bg-secondary-100 text-secondary-500 hover:text-secondary-700'
@@ -177,70 +158,67 @@ const Sidebar = () => {
                     onClick={(e) => handleDelete(e, session.id)}
                   >
                     <TrashIcon className="h-4 w-4" />
-                  </IconButton>
+                  </button>
                 </div>
-              </ListItemSuffix>
-            </ListItem>
+              </div>
+            </div>
           ))}
           {chatSessions.length === 0 && (
             <div className="flex flex-col items-center justify-center h-32 p-4">
-              <Typography 
-                variant="small"
-                className={`text-center ${
+              <p
+                className={`text-center text-sm ${
                   isDarkMode ? 'text-secondary-400' : 'text-secondary-600'
                 }`}
               >
                 No chat sessions yet
-              </Typography>
-              <Typography 
-                variant="small"
-                className={`text-center ${
+              </p>
+              <p
+                className={`text-center text-sm ${
                   isDarkMode ? 'text-secondary-500' : 'text-secondary-500'
                 }`}
               >
                 Click the New Chat button to start
-              </Typography>
+              </p>
             </div>
           )}
-        </List>
-      </Card>
+        </div>
+      </div>
 
-      <Dialog 
-        open={showDeleteDialog} 
-        handler={() => setShowDeleteDialog(false)}
-        className={isDarkMode ? 'bg-secondary-800' : ''}
-      >
-        <DialogHeader className={`${
-          isDarkMode ? 'text-secondary-100' : ''
-        }`}>
-          Delete Chat
-        </DialogHeader>
-        <DialogBody className={isDarkMode ? 'text-secondary-300' : ''}>
-          Are you sure you want to delete this chat? This action cannot be undone.
-        </DialogBody>
-        <DialogFooter>
-          <Button
-            variant="text"
-            color={isDarkMode ? "white" : "gray"}
-            onClick={() => setShowDeleteDialog(false)}
-            className={`mr-1 ${
-              isDarkMode 
-                ? 'hover:bg-secondary-700' 
-                : 'hover:bg-secondary-100'
-            }`}
-          >
-            Cancel
-          </Button>
-          <Button
-            variant="gradient"
-            color="red"
-            onClick={confirmDelete}
-            className={isDarkMode ? 'bg-red-600 hover:bg-red-700' : ''}
-          >
-            Delete
-          </Button>
-        </DialogFooter>
-      </Dialog>
+      {/* Delete Dialog */}
+      {showDeleteDialog && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className={`p-6 rounded-lg shadow-lg max-w-sm w-full ${
+            isDarkMode ? 'bg-secondary-800' : 'bg-white'
+          }`}>
+            <h3 className={`text-lg font-medium mb-2 ${
+              isDarkMode ? 'text-secondary-100' : 'text-gray-900'
+            }`}>
+              Delete Chat
+            </h3>
+            <p className={isDarkMode ? 'text-secondary-300 mb-6' : 'text-gray-600 mb-6'}>
+              Are you sure you want to delete this chat? This action cannot be undone.
+            </p>
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={() => setShowDeleteDialog(false)}
+                className={`px-4 py-2 rounded ${
+                  isDarkMode 
+                    ? 'bg-secondary-700 text-white hover:bg-secondary-600' 
+                    : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                }`}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };
